@@ -23,6 +23,7 @@ func (p PersonController) List(ctx *gin.Context) {
 func (p PersonController) Insert(ctx *gin.Context) {
 	var form forms.PersonInsertForm
 	if err := ctx.Bind(&form); err != nil {
+		// 実際は自ページに戻しつつwarning吐くのが正解だと思うがひとまず割愛
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest (Failed Form Validate)"})
 		return
 	}
@@ -48,6 +49,7 @@ func (p PersonController) Update(ctx *gin.Context) {
 	}
 	var form forms.PersonInsertForm
 	if err := ctx.Bind(&form); err != nil {
+		// 実際は自ページに戻しつつwarning吐くのが正解だと思うがひとまず割愛
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest (Failed Form Validate)"})
 		return
 	}

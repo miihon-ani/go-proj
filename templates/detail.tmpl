@@ -1,0 +1,9 @@
+<body>
+<h2>編集</h2>
+
+<form method="post" action="/update/{{.people.ID}}">
+    <p>名前<input type="text" name="name" size="30" value="{{.people.Name}}" ></p>
+    <p>年齢<input type="number" name="age" value="{{.people.Age}}" ></p>
+    <p><input type="submit" value="Send"></p>
+</form>
+</body>

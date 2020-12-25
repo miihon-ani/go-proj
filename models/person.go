@@ -2,19 +2,20 @@ package models
 
 import (
 	"app/db"
+	"app/forms"
 
 	"github.com/jinzhu/gorm"
 )
 
 type Person struct {
 	gorm.Model
-	Name string `json:"name"`
-	Age  int    `json:"age`
+	Name string
+	Age  int
 }
 
-func (h Person) Insert(name string, age int) {
+func (h Person) Insert(form forms.PersonInsertForm) {
 	db := db.GetDB()
-	db.Create(&Person{Name: name, Age: age})
+	db.Create(&Person{Name: form.Name, Age: form.Age})
 	defer db.Close()
 }
 
@@ -34,12 +35,12 @@ func (h Person) GetOne(id int) Person {
 	return people
 }
 
-func (h Person) Update(id int, name string, age int) {
+func (h Person) Update(id int, form forms.PersonInsertForm) {
 	db := db.GetDB()
 	var people Person
 	db.First(&people, id)
-	people.Name = name
-	people.Age = age
+	people.Name = form.Name
+	people.Age = form.Age
 	db.Save(&people)
 	defer db.Close()
 }

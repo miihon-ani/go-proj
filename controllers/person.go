@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"app/forms"
 	"app/models"
 	"net/http"
 	"strconv"
@@ -20,9 +21,12 @@ func (p PersonController) List(ctx *gin.Context) {
 }
 
 func (p PersonController) Insert(ctx *gin.Context) {
-	name := ctx.PostForm("name")
-	age, _ := strconv.Atoi(ctx.PostForm("age"))
-	personModel.Insert(name, age)
+	var form forms.PersonInsertForm
+	if err := ctx.Bind(&form); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest (Failed Form Validate)"})
+		return
+	}
+	personModel.Insert(form)
 	ctx.Redirect(http.StatusFound, "/")
 }
 
@@ -42,13 +46,12 @@ func (p PersonController) Update(ctx *gin.Context) {
 	if err != nil {
 		panic("ERROR")
 	}
-	name := ctx.PostForm("name")
-	age_str := ctx.PostForm("age")
-	age, err := strconv.Atoi(age_str)
-	if err != nil {
-		panic("ERROR")
+	var form forms.PersonInsertForm
+	if err := ctx.Bind(&form); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest (Failed Form Validate)"})
+		return
 	}
-	personModel.Update(id, name, age)
+	personModel.Update(id, form)
 	ctx.Redirect(http.StatusFound, "/")
 }
 
